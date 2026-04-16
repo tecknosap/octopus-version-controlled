@@ -1,5 +1,4 @@
 step "add-healthchecks" {
-  slug = "step-19-add-healthchecks"
   name = "Add Healthchecks"
   
   action "azure-script" {
@@ -13,14 +12,13 @@ step "add-healthchecks" {
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Adding healthchecks"
-# Your logic here
+# Your healthcheck logic here
       EOT
     }
   }
 }
 
 step "set-tags" {
-  slug = "step-20-set-tags"
   name = "Set Tags"
   
   action "azure-script" {
@@ -34,7 +32,7 @@ step "set-tags" {
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Setting tags"
-# Your logic here
+# Your tagging logic here
       EOT
     }
   }
