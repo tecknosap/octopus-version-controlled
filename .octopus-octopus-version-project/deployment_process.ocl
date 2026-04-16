@@ -1,4 +1,5 @@
 step {
+  id   = "add-subscriptions"
   name = "Add subscriptions to service bus topics"
 
   action {
@@ -18,6 +19,7 @@ EOT
 }
 
 step {
+  id   = "create-function-app"
   name = "Create function app"
 
   action {
@@ -37,6 +39,7 @@ EOT
 }
 
 step {
+  id   = "get-principal-id"
   name = "Get Principal Id"
 
   action {
@@ -56,6 +59,7 @@ EOT
 }
 
 step {
+  id   = "assign-role"
   name = "Assign role to function app"
 
   action {
