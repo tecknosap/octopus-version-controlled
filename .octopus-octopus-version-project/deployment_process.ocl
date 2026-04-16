@@ -1,52 +1,56 @@
-deployment_process {
-  step "add-subscriptions-to-service-bus-topics" {
-    name = "Add subscriptions to service bus topics"
-    action "run-script" {
-      action_type = "Octopus.Script"
-      is_required = true
-      properties = {
-        "Octopus.Action.RunOnServer" = "true"
-        "Octopus.Action.Script.ScriptSource" = "Inline"
-        "Octopus.Action.Script.Syntax" = "PowerShell"
-        "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Adding subscriptions to Service Bus topics"
+step "add-subscriptions-to-service-bus-topics" {
+  name = "Add subscriptions to service bus topics"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Add subscriptions to service bus topics"
 # Your logic here
 EOT
-      }
     }
   }
+}
 
-  step "create-function-app" {
-    name = "Create function app"
-    action "run-script" {
-      action_type = "Octopus.Script"
-      is_required = true
-      properties = {
-        "Octopus.Action.RunOnServer" = "true"
-        "Octopus.Action.Script.ScriptSource" = "Inline"
-        "Octopus.Action.Script.Syntax" = "PowerShell"
-        "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Creating Function App"
+step "create-function-app" {
+  name = "Create function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Create function app"
 # Your logic here
 EOT
-      }
     }
   }
+}
 
-  step "get-principal-id" {
-    name = "Get Principal Id"
-    action "run-script" {
-      action_type = "Octopus.Script"
-      is_required = true
-      properties = {
-        "Octopus.Action.RunOnServer" = "true"
-        "Octopus.Action.Script.ScriptSource" = "Inline"
-        "Octopus.Action.Script.Syntax" = "PowerShell"
-        "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Getting Principal Id"
+step "get-principal-id" {
+  name = "Get Principal Id"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Get Principal Id"
 # Your logic here
 EOT
-      }
     }
   }
 }
