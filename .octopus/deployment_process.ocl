@@ -2,7 +2,7 @@ step "add-healthchecks" {
   slug = "step-19-add-healthchecks"
   name = "Add Healthchecks"
   
-  action "Azure Script" {
+  action "azure-script" {
     action_type = "Octopus.AzureRunScript"
     is_required = true
     
@@ -23,7 +23,7 @@ step "set-tags" {
   slug = "step-20-set-tags"
   name = "Set Tags"
   
-  action "Azure Script" {
+  action "azure-script" {
     action_type = "Octopus.AzureRunScript"
     is_required = true
     
