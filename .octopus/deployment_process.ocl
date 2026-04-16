@@ -1,41 +1,79 @@
-step "add-healthchecks" {
-  name = "Add Healthchecks"
-  
-  action "run-script" {
-    action_type = "Octopus.Script"
-    is_required = true
-    
-    properties = {
-      "Octopus.Action.RunOnServer" = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax" = "PowerShell"
-      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
-      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
-      "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Adding healthchecks to function app"
-# Your healthcheck logic here
-      EOT
+step "add-subscriptions-to-service-bus-topics" {
+  name = "Add subscriptions to service bus topics"
+
+  action {
+    name          = "Add subscriptions"
+    action_type   = "Octopus.Script"
+    is_required   = true
+    run_on_server = true
+
+    script_action {
+      script_source = "Inline"
+      script_syntax = "PowerShell"
+
+      script_body = <<-EOT
+Write-Host "Adding subscriptions to Service Bus topics"
+EOT
     }
   }
 }
 
-step "set-tags" {
-  name = "Set Tags"
-  
-  action "run-script" {
+step "create-function-app" {
+  name = "Create function app"
+
+  action {
+    name        = "Create function app"
     action_type = "Octopus.Script"
     is_required = true
-    
-    properties = {
-      "Octopus.Action.RunOnServer" = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax" = "PowerShell"
-      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
-      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
-      "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Setting tags on resources"
-# Your tagging logic here
-      EOT
+    run_on_server = true
+
+    script_action {
+      script_source = "Inline"
+      script_syntax = "PowerShell"
+
+      script_body = <<-EOT
+Write-Host "Create function app"
+EOT
+    }
+  }
+}
+
+step "get-principal-id" {
+  name = "Get Principal Id"
+
+  action {
+    name        = "Get Principal Id"
+    action_type = "Octopus.Script"
+    is_required = true
+    run_on_server = true
+
+    script_action {
+      script_source = "Inline"
+      script_syntax = "PowerShell"
+
+      script_body = <<-EOT
+Write-Host "Get Principal Id"
+EOT
+    }
+  }
+}
+
+step "assign-role-to-function-app" {
+  name = "Assign role to function app"
+
+  action {
+    name        = "Assign role"
+    action_type = "Octopus.Script"
+    is_required = true
+    run_on_server = true
+
+    script_action {
+      script_source = "Inline"
+      script_syntax = "PowerShell"
+
+      script_body = <<-EOT
+Write-Host "Assigning role"
+EOT
     }
   }
 }
