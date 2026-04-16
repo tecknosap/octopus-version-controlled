@@ -14,7 +14,7 @@ resource "octopusdeploy_git_credential" "git_credential" {
 }
 
 resource "octopusdeploy_project" "octopus_projects" {
-  name        = "${var.project_name}-${formatdate("YYYYMMDDhhmmss", timestamp())}"
+  name        = var.project_name
   description = var.project_description
 
   space_id         = var.space_ids[var.space_name]

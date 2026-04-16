@@ -23,7 +23,7 @@ variable "variable_set_ids" {
 variable "project_name" {
   type        = string
   description = "Name of the Octopus project."
-  default     = "octopus-version-project"
+  default     = "octopus-version-project-v3"
 }
 
 variable "space_name" {

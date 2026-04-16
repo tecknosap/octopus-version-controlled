@@ -19,13 +19,13 @@ module "octopus_project" {
 }
 
 
-module "deployment_process" {
-  source = "./modules/deployment_process"
+# module "deployment_process" {
+#   source = "./modules/deployment_process"
 
-  # Pass the maps from global module
-  project_id = module.octopus_project.project_id
-   api_key    = var.api_key
+#   # Pass the maps from global module
+#   project_id = module.octopus_project.project_id
+#    api_key    = var.api_key
 
   
-}
+# }
 
