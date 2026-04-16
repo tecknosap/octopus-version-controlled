@@ -17,7 +17,6 @@ Write-Host "Adding subscriptions to Service Bus topics"
   }
 }
 
-
 step "create-function-app" {
   name = "Create function app"
 
