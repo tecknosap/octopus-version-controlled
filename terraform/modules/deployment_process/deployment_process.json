@@ -1,0 +1,324 @@
+{
+  "Steps": [
+    {
+      "Name": "Add subscriptions to service bus topics",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Add subscriptions to service bus topics",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Create function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Create function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Get Principal Id",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Get Principal Id",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Grant KeyVault access to function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Grant KeyVault access to function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Grant Shared KeyVault access to function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Grant Shared KeyVault access to function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Restrict App Insights Access to Function App",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Restrict App Insights Access to Function App",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Function App VNET Integration",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Function App VNET Integration",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Grant VNET ServiceTag Access to Function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Grant VNET ServiceTag Access to Function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Create Function app slot",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Create Function app slot",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Get Slot Principal Id",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Get Slot Principal Id",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Slot - Grant KeyVault access to function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Slot - Grant KeyVault access to function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Slot - Grant Shared KeyVault access to function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Slot - Grant Shared KeyVault access to function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Add Environment Variables from App Config",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Add Environment Variables from App Config",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Publish Package to Function app",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Publish Package to Function app",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Slot Warmup",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Slot Warmup",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Swap Function Slot",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Swap Function Slot",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Grant APIM Access to Function App",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Grant APIM Access to Function App",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Deploy APIM templates",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Deploy APIM templates",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Add Healthchecks",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Add Healthchecks",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Set Tags",
+      "Condition": "Success",
+      "Actions": [
+        {
+          "Name": "Set Tags",
+          "ActionType": "Octopus.AzurePowerShell",
+          "Properties": {
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.ScriptSyntax": "PowerShell",
+            "OctopusUseBundledTooling": "True",
+            "Octopus.Action.Script.ScriptBody": ""
+          }
+        }
+      ]
+    }
+  ]
+}
