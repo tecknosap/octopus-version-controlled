@@ -1,0 +1,21 @@
+
+
+
+step "add-subscriptions-to-service-bus-topics" {
+  name = "Add subscriptions to service bus topics"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Adding subscriptions to Service Bus topics"
+# Your logic here
+    EOT
+    }
+  }
+} 
