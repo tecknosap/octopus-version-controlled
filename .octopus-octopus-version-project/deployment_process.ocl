@@ -6,7 +6,7 @@ step "add-subscriptions-to-service-bus-topics" {
     is_required = true
 
     properties = {
-      "Octopus.Action.RunOnServer"        = "true"
+      "Octopus.Action.RunOnServer"         = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax"       = "PowerShell"
       "Octopus.Action.Script.ScriptBody"   = <<-EOT
@@ -25,7 +25,7 @@ step "create-function-app" {
     is_required = true
 
     properties = {
-      "Octopus.Action.RunOnServer"        = "true"
+      "Octopus.Action.RunOnServer"         = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax"       = "PowerShell"
       "Octopus.Action.Script.ScriptBody"   = <<-EOT
@@ -44,7 +44,7 @@ step "get-principal-id" {
     is_required = true
 
     properties = {
-      "Octopus.Action.RunOnServer"        = "true"
+      "Octopus.Action.RunOnServer"         = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax"       = "PowerShell"
       "Octopus.Action.Script.ScriptBody"   = <<-EOT
@@ -63,7 +63,7 @@ step "grant-keyvault-access-to-function-app" {
     is_required = true
 
     properties = {
-      "Octopus.Action.RunOnServer"        = "true"
+      "Octopus.Action.RunOnServer"         = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax"       = "PowerShell"
       "Octopus.Action.Script.ScriptBody"   = <<-EOT
