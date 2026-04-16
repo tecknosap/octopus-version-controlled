@@ -27,7 +27,7 @@ resource "octopusdeploy_project" "octopus_projects" {
     git_credential_id = octopusdeploy_git_credential.git_credential.id
     url               = "https://github.com/tecknosap/octopus-version-controlled.git"
     default_branch    = "main"
-    base_path         = ".octopus-${var.project_name}"  # ← CHANGED to be unique
+    base_path         = ".octopus"
     protected_branches = []
   }
 
