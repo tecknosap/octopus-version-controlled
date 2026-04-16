@@ -16,3 +16,365 @@ Write-Host "Adding subscriptions to Service Bus topics"
     }
   }
 }
+
+
+step "create-function-app" {
+  name = "Create function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Creating function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "get-principal-id" {
+  name = "Get Principal Id"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Getting Principal Id"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "grant-keyvault-access-to-function-app" {
+  name = "Grant KeyVault access to function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting KeyVault access to function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "grant-shared-keyvault-access-to-function-app" {
+  name = "Grant Shared KeyVault access to function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting Shared KeyVault access to function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "restrict-app-insights-access-to-function-app" {
+  name = "Restrict App Insights Access to Function App"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Restricting App Insights access to function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "function-app-vnet-integration" {
+  name = "Function App VNET Integration"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Configuring Function App VNET Integration"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "grant-vnet-servicetag-access-to-function-app" {
+  name = "Grant VNET ServiceTag Access to Function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting VNET ServiceTag access to function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "create-function-app-slot" {
+  name = "Create Function app slot"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Creating function app slot"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "get-slot-principal-id" {
+  name = "Get Slot Principal Id"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Getting Slot Principal Id"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "slot-grant-keyvault-access-to-function-app" {
+  name = "Slot - Grant KeyVault access to function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting KeyVault access to function app slot"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "slot-grant-shared-keyvault-access-to-function-app" {
+  name = "Slot - Grant Shared KeyVault access to function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting Shared KeyVault access to function app slot"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "add-environment-variables-from-app-config" {
+  name = "Add Environment Variables from App Config"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Adding Environment Variables from App Config"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "publish-package-to-function-app" {
+  name = "Publish Package to Function app"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Publishing Package to Function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "slot-warmup" {
+  name = "Slot Warmup"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Warming up slot"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "swap-function-slot" {
+  name = "Swap Function Slot"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Swapping function slot"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "grant-apim-access-to-function-app" {
+  name = "Grant APIM Access to Function App"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Granting APIM access to function app"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "deploy-apim-templates" {
+  name = "Deploy APIM templates"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Deploying APIM templates"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "add-healthchecks" {
+  name = "Add Healthchecks"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Adding healthchecks"
+# Your logic here
+    EOT
+    }
+  }
+}
+
+step "set-tags" {
+  name = "Set Tags"
+
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Setting tags"
+# Your logic here
+    EOT
+    }
+  }
+}
