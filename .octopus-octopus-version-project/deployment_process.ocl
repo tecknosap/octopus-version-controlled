@@ -1,7 +1,27 @@
-step "create-function-app" {
+step {
+  name = "Add subscriptions to service bus topics"
+
+  action {
+    name = "Add subscriptions"
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Adding subscriptions to Service Bus topics"
+EOT
+    }
+  }
+}
+
+step {
   name = "Create function app"
 
-  action "run-script" {
+  action {
+    name = "Create function app"
     action_type = "Octopus.Script"
     is_required = true
 
@@ -11,16 +31,16 @@ step "create-function-app" {
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Creating Function App"
-# Your logic here
-      EOT
+EOT
     }
   }
 }
 
-step "get-principal-id" {
+step {
   name = "Get Principal Id"
 
-  action "run-script" {
+  action {
+    name = "Get Principal Id"
     action_type = "Octopus.Script"
     is_required = true
 
@@ -30,16 +50,16 @@ step "get-principal-id" {
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Getting Principal Id"
-# Your logic here
-      EOT
+EOT
     }
   }
 }
 
-step "assign-role-to-function-app" {
+step {
   name = "Assign role to function app"
 
-  action "run-script" {
+  action {
+    name = "Assign role"
     action_type = "Octopus.Script"
     is_required = true
 
@@ -48,28 +68,8 @@ step "assign-role-to-function-app" {
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Assigning role to Function App"
-# Your logic here
-      EOT
-    }
-  }
-}
-
-step "deploy-function-code" {
-  name = "Deploy function code"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
-    is_required = true
-
-    properties = {
-      "Octopus.Action.RunOnServer" = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax" = "PowerShell"
-      "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Deploying Function App code"
-# Your logic here
-      EOT
+Write-Host "Assigning role"
+EOT
     }
   }
 }
