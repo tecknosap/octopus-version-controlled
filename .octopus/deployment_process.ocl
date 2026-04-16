@@ -1,18 +1,32 @@
 step "add-healthchecks" {
   name = "Add Healthchecks"
   
-  action "azure-script" {
-    action_type = "Octopus.AzureRunScript"
+  action "run-script" {
+    action_type = "Octopus.Script"
     is_required = true
     
     properties = {
-      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
-      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
+      "Octopus.Action.RunOnServer" = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
+      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Adding healthchecks"
-# Your healthcheck logic here
+Write-Host "Adding healthchecks to function app"
+
+# Example logic - add health check path
+$resourceGroupName = "#{ResourceGroupName}"
+$functionAppName = "#{FunctionAppName}"
+
+Write-Host "Configuring health checks for $functionAppName"
+
+# Add health check endpoint configuration
+az functionapp config set `
+  --name $functionAppName `
+  --resource-group $resourceGroupName `
+  --health-check-path "/health"
+
+Write-Host "Health checks configured successfully"
       EOT
     }
   }
@@ -21,18 +35,36 @@ Write-Host "Adding healthchecks"
 step "set-tags" {
   name = "Set Tags"
   
-  action "azure-script" {
-    action_type = "Octopus.AzureRunScript"
+  action "run-script" {
+    action_type = "Octopus.Script"
     is_required = true
     
     properties = {
-      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
-      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
+      "Octopus.Action.RunOnServer" = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
+      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Setting tags"
-# Your tagging logic here
+Write-Host "Setting tags on resources"
+
+# Example logic - apply tags
+$resourceGroupName = "#{ResourceGroupName}"
+$functionAppName = "#{FunctionAppName}"
+$environment = "#{Environment}"
+$project = "#{ProjectName}"
+
+Write-Host "Applying tags to $functionAppName"
+
+# Apply tags to function app
+az functionapp update `
+  --name $functionAppName `
+  --resource-group $resourceGroupName `
+  --set tags.environment=$environment `
+  --set tags.project=$project `
+  --set tags.deployed-by="Octopus"
+
+Write-Host "Tags applied successfully"
       EOT
     }
   }
