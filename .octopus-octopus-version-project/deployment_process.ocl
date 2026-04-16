@@ -1,22 +1,3 @@
-step "add-subscriptions-to-service-bus-topics" {
-  name = "Add subscriptions to service bus topics"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
-    is_required = true
-
-    properties = {
-      "Octopus.Action.RunOnServer" = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax" = "PowerShell"
-      "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Add subscriptions to service bus topics"
-# Your logic here
-EOT
-    }
-  }
-}
-
 step "create-function-app" {
   name = "Create function app"
 
@@ -29,9 +10,9 @@ step "create-function-app" {
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Create function app"
+Write-Host "Creating Function App"
 # Your logic here
-EOT
+      EOT
     }
   }
 }
@@ -48,14 +29,47 @@ step "get-principal-id" {
       "Octopus.Action.Script.ScriptSource" = "Inline"
       "Octopus.Action.Script.Syntax" = "PowerShell"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
-Write-Host "Get Principal Id"
+Write-Host "Getting Principal Id"
 # Your logic here
-EOT
+      EOT
     }
   }
 }
 
+step "assign-role-to-function-app" {
+  name = "Assign role to function app"
 
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
 
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Assigning role to Function App"
+# Your logic here
+      EOT
+    }
+  }
+}
 
+step "deploy-function-code" {
+  name = "Deploy function code"
 
+  action "run-script" {
+    action_type = "Octopus.Script"
+    is_required = true
+
+    properties = {
+      "Octopus.Action.RunOnServer" = "true"
+      "Octopus.Action.Script.ScriptSource" = "Inline"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Deploying Function App code"
+# Your logic here
+      EOT
+    }
+  }
+}
