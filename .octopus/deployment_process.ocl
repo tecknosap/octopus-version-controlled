@@ -13,20 +13,7 @@ step "add-healthchecks" {
       "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Adding healthchecks to function app"
-
-# Example logic - add health check path
-$resourceGroupName = "#{ResourceGroupName}"
-$functionAppName = "#{FunctionAppName}"
-
-Write-Host "Configuring health checks for $functionAppName"
-
-# Add health check endpoint configuration
-az functionapp config set `
-  --name $functionAppName `
-  --resource-group $resourceGroupName `
-  --health-check-path "/health"
-
-Write-Host "Health checks configured successfully"
+# Your healthcheck logic here
       EOT
     }
   }
@@ -47,24 +34,7 @@ step "set-tags" {
       "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptBody" = <<-EOT
 Write-Host "Setting tags on resources"
-
-# Example logic - apply tags
-$resourceGroupName = "#{ResourceGroupName}"
-$functionAppName = "#{FunctionAppName}"
-$environment = "#{Environment}"
-$project = "#{ProjectName}"
-
-Write-Host "Applying tags to $functionAppName"
-
-# Apply tags to function app
-az functionapp update `
-  --name $functionAppName `
-  --resource-group $resourceGroupName `
-  --set tags.environment=$environment `
-  --set tags.project=$project `
-  --set tags.deployed-by="Octopus"
-
-Write-Host "Tags applied successfully"
+# Your tagging logic here
       EOT
     }
   }
