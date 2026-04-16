@@ -1,75 +1,41 @@
-step "add-subscriptions-to-service-bus-topics" {
-  name = "Add subscriptions to service bus topics"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
+step "add-healthchecks" {
+  slug = "step-19-add-healthchecks"
+  name = "Add Healthchecks"
+  
+  action "Azure Script" {
+    action_type = "Octopus.AzureRunScript"
     is_required = true
-
+    
     properties = {
-      "Octopus.Action.RunOnServer"         = "true"
+      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
+      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax"       = "PowerShell"
-      "Octopus.Action.Script.ScriptBody"   = <<-EOT
-Write-Host "Adding subscriptions to Service Bus topics"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Adding healthchecks"
 # Your logic here
-EOT
+      EOT
     }
   }
 }
 
-step "create-function-app" {
-  name = "Create function app"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
+step "set-tags" {
+  slug = "step-20-set-tags"
+  name = "Set Tags"
+  
+  action "Azure Script" {
+    action_type = "Octopus.AzureRunScript"
     is_required = true
-
+    
     properties = {
-      "Octopus.Action.RunOnServer"         = "true"
+      "Octopus.Action.Azure.AccountId" = "#{AzureAccount}"
+      "Octopus.Action.Azure.ExecuteInAzureContext" = "true"
       "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax"       = "PowerShell"
-      "Octopus.Action.Script.ScriptBody"   = <<-EOT
-Write-Host "Creating Function App"
+      "Octopus.Action.Script.Syntax" = "PowerShell"
+      "Octopus.Action.Script.ScriptBody" = <<-EOT
+Write-Host "Setting tags"
 # Your logic here
-EOT
-    }
-  }
-}
-
-step "get-principal-id" {
-  name = "Get Principal Id"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
-    is_required = true
-
-    properties = {
-      "Octopus.Action.RunOnServer"         = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax"       = "PowerShell"
-      "Octopus.Action.Script.ScriptBody"   = <<-EOT
-Write-Host "Retrieving Principal Id"
-# Your logic here
-EOT
-    }
-  }
-}
-
-step "grant-keyvault-access-to-function-app" {
-  name = "Grant KeyVault access to function app"
-
-  action "run-script" {
-    action_type = "Octopus.Script"
-    is_required = true
-
-    properties = {
-      "Octopus.Action.RunOnServer"         = "true"
-      "Octopus.Action.Script.ScriptSource" = "Inline"
-      "Octopus.Action.Script.Syntax"       = "PowerShell"
-      "Octopus.Action.Script.ScriptBody"   = <<-EOT
-Write-Host "Granting KeyVault access to Function App"
-# Your logic here
-EOT
+      EOT
     }
   }
 }
