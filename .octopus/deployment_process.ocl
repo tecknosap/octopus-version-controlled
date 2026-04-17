@@ -44,7 +44,7 @@ step "create-key-vault" {
     }
 }
 
-// Step 3: Create/Manage Subscription
+
 step "subscription" {
     name = "Subscription"
     condition = "Success"
