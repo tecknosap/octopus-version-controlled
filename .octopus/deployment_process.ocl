@@ -1,38 +1,22 @@
-# STEP 1 - UNIQUE
-step "Create Service Principal" {     # ← Different
-    name = "Create Service Principal"  # ← Different
-    action {
-        name = "Create Service Principal"  # ← Different
-        properties = {
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "Creating Service Principal..."  # ← Different
-            EOT
-        }
-    }
-}
+// This is a deployment process OCL file
+// Created by Terraform team
 
-# STEP 2 - UNIQUE
-step "Create Key Vault" {              # ← Different
-    name = "Create Key Vault"           # ← Different
+step "Create Service Principal" {
+    name = "Create Service Principal"
+    condition = "Success"
+    start_trigger = "StartAfterPrevious"
+    
     action {
-        name = "Create Key Vault"        # ← Different
+        action_type = "Octopus.Script"
+        name = "Create Service Principal"
         properties = {
+            Octopus.Action.RunOnServer = "True"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "Creating Key Vault..."  # ← Different
+                Write-Host "Creating Service Principal..."
             EOT
-        }
-    }
-}
-
-# STEP 3 - UNIQUE
-step "Submission" {                    # ← Different
-    name = "Submission"                 # ← Different
-    action {
-        name = "Submission"              # ← Different
-        properties = {
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "Submission..."  # ← Different
-            EOT
+            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
         }
     }
 }
