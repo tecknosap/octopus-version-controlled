@@ -1,4 +1,5 @@
-step "Create Service Principal" {
+
+step "create-service-principal" {
     name = "Create Service Principal"
     condition = "Success"
     start_trigger = "StartAfterPrevious"
@@ -12,6 +13,56 @@ step "Create Service Principal" {
             Octopus.Action.Script.Syntax = "PowerShell"
             Octopus.Action.Script.ScriptBody = <<-EOT
                 Write-Host "Creating Service Principal..."
+                $spName = "#{Project.Name}-sp-#{Octopus.Environment.Name}"
+                Write-Host "Service Principal Name: $spName"
+            EOT
+            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
+        }
+    }
+}
+
+
+step "create-key-vault" {
+    name = "Create Key Vault"
+    condition = "Success"
+    start_trigger = "StartAfterPrevious"
+    
+    action {
+        action_type = "Octopus.Script"
+        name = "Create Key Vault"
+        properties = {
+            Octopus.Action.RunOnServer = "True"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Creating Key Vault..."
+                $kvName = "#{Project.Name}-kv-#{Octopus.Environment.Name}"
+                Write-Host "Key Vault Name: $kvName"
+            EOT
+            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
+        }
+    }
+}
+
+step "submission" {
+    name = "Submission"
+    condition = "Success"
+    start_trigger = "StartAfterPrevious"
+    
+    action {
+        action_type = "Octopus.Script"
+        name = "Submission"
+        properties = {
+            Octopus.Action.RunOnServer = "True"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "========================================"
+                Write-Host "SUBMISSION STEP"
+                Write-Host "========================================"
+                Write-Host "Environment: #{Octopus.Environment.Name}"
+                Write-Host "Project: #{Project.Name}"
+                Write-Host "Submission completed!"
             EOT
             Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
         }
