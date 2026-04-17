@@ -1,85 +1,478 @@
-
-step "create-service-principal" {
-    name = "Create Service Principal"
-    condition = "Success"
-    start_trigger = "StartAfterPrevious"
-    
-    action {
-        action_type = "Octopus.Script"
-        name = "Create Service Principal"
-        properties = {
-            Octopus.Action.RunOnServer = "True"
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "Creating Service Principal..."
-                $spName = "#{Project.Name}-sp-#{Octopus.Environment.Name}"
-                Write-Host "Service Principal Name: $spName"
-            EOT
-            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
-        }
-    }
+step "add-subscriptions-to-service-bus-topics" {
+condition = "Variable"
+name = "Add subscriptions to service bus topics"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
 }
 
-
-step "create-key-vault" {
-    name = "Create Key Vault"
-    condition = "Success"
-    start_trigger = "StartAfterPrevious"
-    
-    action {
-        action_type = "Octopus.Script"
-        name = "Create Key Vault"
-        properties = {
-            Octopus.Action.RunOnServer = "True"
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "Creating Key Vault..."
-                $kvName = "#{Project.Name}-kv-#{Octopus.Environment.Name}"
-                Write-Host "Key Vault Name: $kvName"
-            EOT
-            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
-        }
+```
+action {
+    is_required = true
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-944"
+        Octopus.Action.Template.Version = "13"
+        Step_ServiceBusNamespace = "#{AzureServiceBusNamespaceName}"
+        Step_ServiceBusRGName = "#{ServiceBusResourceGroupName}"
+        Step_SubscriptionName = "#{ServiceBusSubscriptionName}"
+        Step_SubscriptionTopicNames = "#{ServiceBusSubscriptionTopicNames}"
+        Step_TopicNames = "#{ServiceBusTopicNames}"
     }
+    worker_pool = "function-app-pool"
+}
+```
+
 }
 
+step "create-function-app" {
+condition = "Variable"
+name = "Create function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
 
-step "subscription" {
-    name = "Subscription"
-    condition = "Success"
-    start_trigger = "StartAfterPrevious"
-    
-    action {
-        action_type = "Octopus.Script"
-        name = "Subscription"
-        properties = {
-            Octopus.Action.RunOnServer = "True"
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                Write-Host "========================================"
-                Write-Host "SUBSCRIPTION STEP"
-                Write-Host "========================================"
-                Write-Host "Environment: #{Octopus.Environment.Name}"
-                Write-Host "Project: #{Project.Name}"
-                Write-Host "Release: #{Octopus.Release.Number}"
-                Write-Host ""
-                Write-Host "Managing Azure subscription..."
-                Write-Host "Subscription ID: #{Azure.SubscriptionId}"
-                Write-Host ""
-                
-                # Add your subscription management logic here:
-                # - Set subscription context
-                # - Register resource providers
-                # - Configure subscription policies
-                # - Create subscription-level resources
-                
-                Write-Host ""
-                Write-Host "Subscription configuration completed successfully!"
-                Write-Host "========================================"
-            EOT
-            Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
-        }
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-945"
+        Octopus.Action.Template.Version = "3"
+        Step_Environment = "#{AzureEnvironmentName}"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_FunctionAppPlanName = "#{InxnPrefix}-#{AzureEnvironmentName}-win-app-plan-fn"
+        Step_FunctionAppPlanResourceGroupName = "#{NewAzureEnvResourceGroup}"
+        Step_FunctionsVersion = "#{FunctionsRuntimeVersion}"
+        Step_Location = "#{AzureResourceLocation}"
+        Step_MinimumElasticInstanceCount = "#{MinimumElasticInstanceCount}"
+        Step_NetFrameworkVersion = "#{NetFrameworkVersion}"
+        Step_Platform = "32"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_Runtime = "#{FunctionRuntime}"
+        Step_RuntimeVersion = "#{DotNetRuntimeVersion}"
+        Step_Sku = "#{AppServicePlanSku}"
+        Step_SlotTaskHubName = "#{InxnPrefix}#{AzureEnvironmentName}#{ProductName}func"
+        Step_StorageAccountKind = "#{AzureStorageKind}"
+        Step_StorageAccountName = "#{StorageAccountName}"
+        Step_StorageAccountSku = "#{AzureStorageAccountType}"
+        Step_StorageDnsEndpointType = "#{StorageDnsEndpointType}"
     }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "get-principal-id" {
+condition = "Variable"
+name = "Get Principal Id"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-946"
+        Octopus.Action.Template.Version = "1"
+        Step_Name = "inxn-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "grant-keyvault-access-to-function-app" {
+condition = "Variable"
+name = "Grant KeyVault access to function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-947"
+        Octopus.Action.Template.Version = "5"
+        Step_FunctionAppPrincipalId = "#{Octopus.Action[Get Principal Id].Output.FunctionAppPrincipalId}"
+        Step_KeyVaultName = "#{EnvKeyVaultName}"
+        Step_SubscriptionId = "#{NewAzureSharedSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "grant-shared-keyvault-access-to-function-app" {
+condition = "Variable"
+name = "Grant Shared KeyVault access to function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-947"
+        Octopus.Action.Template.Version = "5"
+        Step_FunctionAppPrincipalId = "#{Octopus.Action[Get Principal Id].Output.FunctionAppPrincipalId}"
+        Step_KeyVaultName = "#{SharedKeyVaultName}"
+        Step_SubscriptionId = "#{DevTestSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "grant-app-insights-access-to-function-app" {
+condition = "Variable"
+name = "Restrict App Insights Access to Function App"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+start_trigger = "StartWithPrevious"
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-951"
+        Octopus.Action.Template.Version = "1"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "function-app-vnet-integration" {
+condition = "Variable"
+name = "Function App VNET Integration"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-956"
+        Octopus.Action.Template.Version = "5"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_SubnetName = "#{AzureFunctionsSubnetName}"
+        Step_SubscriptionId = "#{VNetIntegrationSubscriptionId}"
+        Step_VnetName = "#{AzureVnetName}"
+        Step_VnetRGName = "#{AzureVnetResourceGroupName}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "grant-vnet-servicetag-access-to-function-app" {
+condition = "Variable"
+name = "Grant VNET ServiceTag Access to Function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-959"
+        Octopus.Action.Template.Version = "2"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_FunctionAppResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_SubnetName = "#{AzureFunctionsSubnetName}"
+        Step_SubscriptionId = "#{VNetIntegrationSubscriptionId}"
+        Step_VnetName = "#{AzureVnetName}"
+        Step_VnetRGName = "#{AzureVnetResourceGroupName}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "create-function-app-slot" {
+condition = "Variable"
+name = "Create Function app slot"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-955"
+        Octopus.Action.Template.Version = "6"
+        Step_AppConfigName = "#{AzureAppConfigurationServiceName}"
+        Step_AppConfigRGName = "#{NewAzureSharedResourceGroup}"
+        Step_AppInsightsName = "inxn-#{AzureEnvironmentName}-app-insights"
+        Step_AppInsightsResourceGroupName = "inxn-#{AzureEnvironmentName}"
+        Step_Environment = "#{AzureEnvironmentName}"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_FunctionsVersion = "#{FunctionsRuntimeVersion}"
+        Step_NetFrameworkVersion = "#{NetFrameworkVersion}"
+        Step_Platform = "32"
+        Step_ProdSubscriptionId = "#{ProductionSubscriptionId}"
+        Step_ResourceGroupName = "#{NewAzureEnvResourceGroup}-#{ProductName}"
+        Step_Runtime = "#{FunctionRuntime}"
+        Step_RuntimeVersion = "#{DotNetRuntimeVersion}"
+        Step_SlotName = "#{FuncSlotName}"
+        Step_UseManagedIdentityForAppConfig = "false"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "get-slot-principal-id" {
+condition = "Variable"
+name = "Get Slot Principal Id"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-946"
+        Octopus.Action.Template.Version = "1"
+        Step_Name = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_ResourceGroupName = "#{NewAzureEnvResourceGroup}-#{ProductName}"
+        Step_SlotName = "#{FuncSlotName}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "slot-grant-keyvault-access-to-function-app" {
+condition = "Variable"
+name = "Slot - Grant KeyVault access to function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-947"
+        Octopus.Action.Template.Version = "5"
+        Step_FunctionAppPrincipalId = "#{Octopus.Action[Get Slot Principal Id].Output.FunctionAppPrincipalId}"
+        Step_KeyVaultName = "#{EnvKeyVaultName}"
+        Step_SubscriptionId = "#{NewAzureSharedSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "slot-grant-shared-keyvault-access-to-function-app" {
+condition = "Variable"
+name = "Slot - Grant Shared KeyVault access to function app"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-947"
+        Octopus.Action.Template.Version = "5"
+        Step_FunctionAppPrincipalId = "#{Octopus.Action[Get Slot Principal Id].Output.FunctionAppPrincipalId}"
+        Step_KeyVaultName = "#{SharedKeyVaultName}"
+        Step_SubscriptionId = "#{DevTestSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "add-environment-variables-from-app-config" {
+name = "Add Environment Variables from App Config"
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-983"
+        Octopus.Action.Template.Version = "11"
+        Step_AppConfigLabel = "#{AzureEnvironmentName}"
+        Step_AppConfigName = "#{AppConfigName}"
+        Step_AppConfigSubscriptionId = "#{ProductionSubscriptionId}"
+        Step_CommaSeparatedKeys = "#{CommaSeparatedAppConfigKeys}"
+        Step_ConfigReplaceString = "\"\""
+        Step_FunctionAppName = "#{FunctionAppName}"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_SlotName = "#{FuncSlotName}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "publish-package-to-function-app" {
+name = "Publish Package to Function app"
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-949"
+        Octopus.Action.Template.Version = "17"
+        Step_ContainerName = "zip-deploy"
+        Step_DisableOldInxnTriggers = "#{DisableOldInxnTriggers}"
+        Step_FuncSlotName = "#{FuncSlotName}"
+        Step_FunctionAppName = "#{FunctionAppName}"
+        Step_FunctionAppResourceGroup = "#{FunctionAppResourceGroup}"
+        Step_PackageIdAlias = "app-package"
+        Step_StorageAccountName = "#{StorageAccountName}"
+        Step_SubscriptionId = "#{NewAzureSharedSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "warm-up-slot-01" {
+name = "Slot Warmup"
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-981"
+        Octopus.Action.Template.Version = "11"
+        Step_FuncSlotName = "staging"
+        Step_FunctionAppName = "#{FunctionAppName}"
+        Step_FunctionAppResourceGroup = "#{FunctionAppResourceGroup}"
+        Step_PerformIsAliveCheck = "true"
+        Step_PerformIsReadyCheck = "true"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "swap-function-slot" {
+name = "Swap Function Slot"
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-957"
+        Octopus.Action.Template.Version = "2"
+        Step_Name = "#{FunctionAppName}"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_SlotName = "#{FuncSlotName}"
+        Step_TargetSlotName = "production"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "grant-apim-access-to-function-app" {
+condition = "Variable"
+name = "Grant APIM Access to Function App"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    is_disabled = true
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-952"
+        Octopus.Action.Template.Version = "3"
+        Step_ApimServiceName = "#{ApimServiceName}"
+        Step_ApimServiceResourceGroupName = "#{ApimServiceResourceGroupName}"
+        Step_FunctionAppName = "#{InxnPrefix}-#{AzureEnvironmentName}-#{ProductName}-func"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "deploy-apim-templates-2" {
+name = "Deploy APIM templates"
+
+```
+action "deploy-apim-templates" {
+    is_disabled = true
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-982"
+        Octopus.Action.Template.Version = "15"
+        Step_ApimPackageAlias = "apim-templates-package"
+        Step_ApimServiceResourceGroupName = "#{ApimServiceResourceGroupName}"
+        Step_Environment = "#{AzureEnvironmentName}"
+        Step_FunctionAppPrefix = "#{FunctionAppPrefix}"
+        Step_InxnPrefix = "#{InxnPrefix}"
+        Step_ProductName = "#{ProductName}"
+        Step_SubscriptionId = "#{NewAzureSharedSubscriptionId}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "add-healthchecks" {
+name = "Add Healthchecks"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{ServiceBusSubscriptionName && DeployInfraUsingTerraform}"
+}
+
+```
+action {
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-960"
+        Octopus.Action.Template.Version = "6"
+        Step_AppInsightsName = "#{AppInsightsName}"
+        Step_AppInsightsResourceGroupName = "#{DlrEnvSharedResourceGroup}"
+        Step_Environment = "#{AzureEnvironmentName}"
+        Step_FunctionAppName = "#{FunctionAppName}"
+        Step_FunctionAppResourceGroupName = "#{FunctionAppResourceGroup}"
+        Step_RequestUrlPath = "/api/isReady"
+        Step_WebTestName = "#{FunctionAppName}-web-test"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
+}
+
+step "set-tags" {
+condition = "Variable"
+name = "Set Tags"
+properties = {
+Octopus.Step.ConditionVariableExpression = "#{CommaSeparatedKeyValueTags}"
+}
+
+```
+action {
+    is_disabled = true
+    properties = {
+        Octopus.Action.Template.Id = "ActionTemplates-1005"
+        Octopus.Action.Template.Version = "3"
+        Step_CommaSeparatedKeyValueTags = "#{CommaSeparatedKeyValueTags}"
+        Step_FunctionAppName = "#{FunctionAppName}"
+        Step_ResourceGroupName = "#{FunctionAppResourceGroup}"
+    }
+    worker_pool = "function-app-pool"
+}
+```
+
 }
