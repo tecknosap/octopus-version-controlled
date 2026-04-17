@@ -12,7 +12,7 @@ step "add-subscriptions-to-service-bus-topics" {
 
     properties = {
       Octopus.Action.Template.Id      = "ActionTemplates-944"
-      Octopus.Action.Template.Version = "13"
+      Octopus.Action.Template.Version = "10"
 
       Step_ServiceBusNamespace       = "#{AzureServiceBusNamespaceName}"
       Step_ServiceBusRGName          = "#{ServiceBusResourceGroupName}"
