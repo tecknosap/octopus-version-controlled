@@ -1,79 +1,38 @@
-step "add-subscriptions-to-service-bus-topics" {
-  name = "Add subscriptions to service bus topics"
-
-  action {
-    name          = "Add subscriptions"
-    action_type   = "Octopus.Script"
-    is_required   = true
-    run_on_server = true
-
-    script_action {
-      script_source = "Inline"
-      script_syntax = "PowerShell"
-
-      script_body = <<-EOT
-Write-Host "Adding subscriptions to Service Bus topics"
-EOT
+# STEP 1 - UNIQUE
+step "Create Service Principal" {     # ← Different
+    name = "Create Service Principal"  # ← Different
+    action {
+        name = "Create Service Principal"  # ← Different
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Creating Service Principal..."  # ← Different
+            EOT
+        }
     }
-  }
 }
 
-step "create-function-app" {
-  name = "Create function app"
-
-  action {
-    name        = "Create function app"
-    action_type = "Octopus.Script"
-    is_required = true
-    run_on_server = true
-
-    script_action {
-      script_source = "Inline"
-      script_syntax = "PowerShell"
-
-      script_body = <<-EOT
-Write-Host "Create function app"
-EOT
+# STEP 2 - UNIQUE
+step "Create Key Vault" {              # ← Different
+    name = "Create Key Vault"           # ← Different
+    action {
+        name = "Create Key Vault"        # ← Different
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Creating Key Vault..."  # ← Different
+            EOT
+        }
     }
-  }
 }
 
-step "get-principal-id" {
-  name = "Get Principal Id"
-
-  action {
-    name        = "Get Principal Id"
-    action_type = "Octopus.Script"
-    is_required = true
-    run_on_server = true
-
-    script_action {
-      script_source = "Inline"
-      script_syntax = "PowerShell"
-
-      script_body = <<-EOT
-Write-Host "Get Principal Id"
-EOT
+# STEP 3 - UNIQUE
+step "Submission" {                    # ← Different
+    name = "Submission"                 # ← Different
+    action {
+        name = "Submission"              # ← Different
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Submission..."  # ← Different
+            EOT
+        }
     }
-  }
-}
-
-step "assign-role-to-function-app" {
-  name = "Assign role to function app"
-
-  action {
-    name        = "Assign role"
-    action_type = "Octopus.Script"
-    is_required = true
-    run_on_server = true
-
-    script_action {
-      script_source = "Inline"
-      script_syntax = "PowerShell"
-
-      script_body = <<-EOT
-Write-Host "Assigning role"
-EOT
-    }
-  }
 }
