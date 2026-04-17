@@ -1,6 +1,3 @@
-// This is a deployment process OCL file
-// Created by Terraform team
-
 step "Create Service Principal" {
     name = "Create Service Principal"
     condition = "Success"
