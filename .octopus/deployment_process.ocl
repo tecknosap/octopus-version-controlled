@@ -44,25 +44,40 @@ step "create-key-vault" {
     }
 }
 
-step "submission" {
-    name = "Submission"
+// Step 3: Create/Manage Subscription
+step "subscription" {
+    name = "Subscription"
     condition = "Success"
     start_trigger = "StartAfterPrevious"
     
     action {
         action_type = "Octopus.Script"
-        name = "Submission"
+        name = "Subscription"
         properties = {
             Octopus.Action.RunOnServer = "True"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
             Octopus.Action.Script.ScriptBody = <<-EOT
                 Write-Host "========================================"
-                Write-Host "SUBMISSION STEP"
+                Write-Host "SUBSCRIPTION STEP"
                 Write-Host "========================================"
                 Write-Host "Environment: #{Octopus.Environment.Name}"
                 Write-Host "Project: #{Project.Name}"
-                Write-Host "Submission completed!"
+                Write-Host "Release: #{Octopus.Release.Number}"
+                Write-Host ""
+                Write-Host "Managing Azure subscription..."
+                Write-Host "Subscription ID: #{Azure.SubscriptionId}"
+                Write-Host ""
+                
+                # Add your subscription management logic here:
+                # - Set subscription context
+                # - Register resource providers
+                # - Configure subscription policies
+                # - Create subscription-level resources
+                
+                Write-Host ""
+                Write-Host "Subscription configuration completed successfully!"
+                Write-Host "========================================"
             EOT
             Octopus.Action.Azure.AccountId = "#{Azure.AccountId}"
         }
